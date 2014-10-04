@@ -1,0 +1,19 @@
+---
+
+- name: TACACS+ Multi-Factor Authentication
+  hosts: netops
+  sudo: yes
+  roles:
+    - tac_plus
+  tasks:
+    - name: Install Google Authenticator
+      apt:
+        pkg=google-authenticator
+        state=installed
+    - name: Configure PAM
+      copy:
+        dest=/etc/pam.d/tac_plus
+        src=files/tac_plus
+        owner=root
+        group=root
+        mode=0644

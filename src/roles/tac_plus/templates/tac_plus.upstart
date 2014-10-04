@@ -1,0 +1,11 @@
+# TACACS+ Upstart Job
+
+description "Shrubbery Networks tac_plus Daemon"
+author "Tyler Christiansen <tyler@oss-stack.io>"
+
+start on startup
+stop on shutdown
+respawn
+expect daemon
+exec {{ dst_dir }}/bin/tac_plus -C {{ dst_dir }}/etc/tac_plus.conf
+

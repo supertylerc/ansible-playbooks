@@ -1,4 +1,14 @@
-### remove an empty file that snuck in (HEAD, master)
+### add first playbook and clean up directory structure (HEAD, master)
+>Sat, 4 Oct 2014 15:06:20 -0700
+
+>Author: Tyler Christiansen (tyler@oss-stack.io)
+
+>Commiter: Tyler Christiansen (tyler@oss-stack.io)
+
+
+
+
+### remove an empty file that snuck in (origin/master)
 >Sat, 4 Oct 2014 14:46:41 -0700
 
 >Author: Tyler Christiansen (tyler@oss-stack.io)
@@ -8,7 +18,7 @@
 
 
 
-### Add nagios-api and tac_plus roles (origin/master)
+### Add nagios-api and tac_plus roles
 >Sat, 4 Oct 2014 14:00:23 -0700
 
 >Author: Tyler Christiansen (tyler@oss-stack.io)

@@ -1,0 +1,6 @@
+---
+
+- name: Restart Nagios API
+  service:
+    name=nagios-api
+    state=restarted
