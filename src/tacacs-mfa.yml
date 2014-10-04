@@ -13,7 +13,7 @@
     - name: Configure PAM
       copy:
         dest=/etc/pam.d/tac_plus
-        src=files/tac_plus
+        src=files/tac_plus.pam
         owner=root
         group=root
         mode=0644

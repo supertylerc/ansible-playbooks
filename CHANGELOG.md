@@ -1,4 +1,14 @@
-### remove roles/ from git (HEAD, master)
+### add pam configuration file and update playbook (HEAD, master)
+>Sat, 4 Oct 2014 15:14:47 -0700
+
+>Author: Tyler Christiansen (tyler@oss-stack.io)
+
+>Commiter: Tyler Christiansen (tyler@oss-stack.io)
+
+
+
+
+### remove roles/ from git (origin/master)
 >Sat, 4 Oct 2014 15:07:06 -0700
 
 >Author: Tyler Christiansen (tyler@oss-stack.io)
@@ -8,7 +18,7 @@
 
 
 
-### add first playbook and clean up directory structure (origin/master)
+### add first playbook and clean up directory structure
 >Sat, 4 Oct 2014 15:06:20 -0700
 
 >Author: Tyler Christiansen (tyler@oss-stack.io)
