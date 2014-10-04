@@ -1,8 +1,0 @@
----
-
-git_repo: https://github.com/supertylerc/tac_plus
-repo_dir: /usr/src/tac_plus
-dst_dir: /opt/tac_plus
-user: tac-plus
-group: tac-plus
-
