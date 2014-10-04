@@ -1,0 +1,94 @@
+---
+
+- include_vars: vars/config.yml
+- name: Install Prerequisite Packages
+  apt:
+    pkg={{ item }}
+    state=installed
+  with_items:
+    - git
+    - curl
+    - build-essential
+    - flex
+    - bison
+    - tcpd
+    - libwrap0-dev
+    - libpam0g-dev
+  tags:
+    - tac_plus
+
+- name: Clone Repository
+  git:
+    repo={{ git_repo }}
+    dest={{ repo_dir }}
+    update=no
+  tags:
+    - tac_plus
+
+- name: Configure Source
+  shell:
+    ./configure --prefix={{ dst_dir }} --with-userid={{ user }} --with-groupid={{ group }}
+    chdir={{ repo_dir }}/src
+  tags:
+    - tac_plus
+
+- name: Compile Source
+  shell:
+    make
+    chdir={{ repo_dir }}/src
+  tags:
+    - tac_plus
+
+- name: Install TACACS+ Daemon
+  shell:
+    make install
+    chdir={{ repo_dir }}/src
+    creates={{ dst_dir }}/bin/tac_plus
+  tags:
+    - tac_plus
+
+- name: Create Configuration Directory
+  file:
+    path={{ dst_dir }}/etc
+    state=directory
+    owner={{ user }}
+    group={{ group }}
+  tags:
+    - tac_plus
+
+- name: Get Permissions
+  stat:
+    path={{ dst_dir }}
+    get_md5=no
+  register: permissions
+  tags:
+    - tac_plus
+
+- name: Correct Permissions
+  shell:
+    chown -R {{ user }}:{{ group }} {{ dst_dir }}
+  when: p.stat.uid != {{ user }} and p.stat.gid != {{ group }}
+  tags:
+    - tac_plus
+
+- name: Create Upstart Job
+  copy:
+    src=tac_plus.upstart
+    dest=/etc/init/tac_plus.conf
+    owner=root
+    group=root
+    mode=0644
+  tags:
+    - tac_plus
+
+- name: Update Configuration
+  template:
+    src=tac_plus.conf
+    dest={{ dst_dir }}/etc/tac_plus.conf
+    owner={{ user }}
+    group={{ group }}
+    mode=0600
+  tags:
+    - tac_plus
+  notify: Restart TACACS+
+

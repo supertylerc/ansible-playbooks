@@ -1,0 +1,71 @@
+---
+- name: Install Prerequisite Packages
+  apt:
+    pkg={{ item }}
+    state=installed
+  with_items:
+    - python-openssl
+    - git
+    - supervisor
+    - python-pip
+    - python-dev
+
+- name: Clone Repository
+  git:
+    repo=https://github.com/zorkian/nagios-api.git
+    dest={{ dst_dir }}
+    update=no
+  tags:
+    - nagios-api
+
+- name: Install Dependencies
+  pip:
+    name={{ item }}
+  with_items:
+    - diesel
+    - greenlet
+  tags:
+    - nagios-api
+
+- name: Install
+  shell:
+    cd {{ dst_dir }} && python {{ dst_dir }}/setup.py install
+    creates=/usr/local/bin/nagios-api
+  tags:
+    - nagios-api
+
+- name: Create PID Directory
+  file:
+    path={{ dst_dir }}/run
+    state=directory
+    owner=nagios
+    group=www-data
+  tags:
+    - nagios-api
+
+- name: Correct Permissions
+  shell:
+    chown -R nagios:www-data {{ dst_dir }}
+  tags:
+    - nagios-api
+
+- name: Create Nagios API Logfile
+  file:
+    path=/var/log/nagios-api.log
+    owner=nagios
+    group=www-data
+    state=touch
+  tags:
+    - nagios-api
+
+- name: Create Upstart Job
+  copy:
+    src=nagios-api2.conf
+    dest=/etc/init/nagios-api2.conf
+    owner=root
+    group=root
+    mode=0644
+  notify: Restart Nagios API
+  tags:
+    - nagios-api
+

@@ -1,0 +1,14 @@
+---
+config:
+  key: abcdefghijklmnopqrstuvwxyz
+  accounting_file: /var/log/tac_plus.acct
+  groups:
+    - name: engineers
+      default: permit
+      services:
+        - name: junos-exec
+          username: admin
+  users:
+    - name: bob
+      group: engineers
+      authentication: PAM
